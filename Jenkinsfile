@@ -4,7 +4,7 @@ pipeline {
     stages{
         stage('Build Docker Image'){
             steps{
-                sh 'echo "Executando o comando Docker Build"'
+               dockerapp = docker.Build("fornas/guia-jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
             }
         }
     stage('Push Docker Image'){
