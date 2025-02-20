@@ -9,7 +9,10 @@ pipeline {
         }
     stage('Push Docker Image'){
             steps{
-                sh 'echo "Executando o comando Docker Push"'
+               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                    dockerapp.Push('latest') 
+                    dockerapp.Push("${env.BUILD_ID}")
+               }
             }
         }
     stage('Deploy no k3s'){
