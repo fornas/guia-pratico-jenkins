@@ -4,14 +4,19 @@ pipeline {
     stages{
         stage('Build Docker Image'){
             steps{
+                script {
+               // Cria a imagem Docker e armazena a referência 
                dockerapp = docker.build("fornas/guia-jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                }
             }
         }
     stage('Push Docker Image'){
             steps{
-               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                     dockerapp.push('latest') 
                     dockerapp.push("${env.BUILD_ID}")
+                    }
                }
             }
         }
