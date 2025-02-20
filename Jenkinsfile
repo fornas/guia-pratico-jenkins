@@ -24,19 +24,6 @@ pipeline {
         }
 
 
-    stage('Checkout Código') {
-            steps {
-                script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                              doGenerateSubmoduleConfigurations: false,
-                              extensions: [[$class: 'CleanBeforeCheckout']], // Garante workspace limpo
-                              submoduleCfg: [],
-                              userRemoteConfigs: [[url: 'https://github.com/fornas/guia-pratico-jenkins.git']]
-                    ])
-                }
-            }
-        }
-
     stage('Deploy no k3s') { // Etapa de implantação no cluster Kubernetes (K3s)
             environment {
                 // Define uma variável de ambiente para a versão da imagem baseada no ID da build
@@ -46,9 +33,9 @@ pipeline {
                 // Usa credenciais para acessar o cluster k3s
                 withKubeConfig([credentialsId: 'kubeconfig']) {
                     // Substitui o placeholder {{tag}} pelo ID da build no arquivo de deployment do k3s
-                    sh 'sed -i "s/{{tag}}/$tag_version/g" .k8s/deployment.yaml'
+                    sh 'sed -i "s/{{tag}}/$tag_version/g" k8s/deployment.yaml'
                     // Aplica a configuração do deployment no cluster Kubernetes
-                    sh 'kubectl apply -f .k8s/deployment.yaml'
+                    sh 'kubectl apply -f k8s/deployment.yaml'
                 }
             }        
         }
