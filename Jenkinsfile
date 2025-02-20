@@ -33,7 +33,7 @@ pipeline {
                     // Substitui o placeholder {{tag}} pelo ID da build no arquivo de deployment do k3s
                     sh 'sed -i "s/{{tag}}/$tag_version/g" .k8s/deployment.yaml'
                     // Aplica a configuração do deployment no cluster Kubernetes
-                    sh 'kubectl apply -f k8s/deployment.yaml'
+                    sh 'kubectl apply -f .k8s/deployment.yaml'
                 }
             }        
         }
