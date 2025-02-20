@@ -6,7 +6,7 @@ pipeline {
             steps{
                 script {
                // Cria a imagem Docker e armazena a referência 
-               dockerapp = docker.build("fornas/guia-jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+               dockerapp = docker.build("marcelofornas/pipeline-jenkins:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
                 }
             }
         }
