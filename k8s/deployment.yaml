@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: conversao-temperatura
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: conversao-temperatura
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: conversao-temperatura
-        image: fabricioveronez/live-jenkins
+        image: marcelofornas/pipeline-jenkins:{{tag}}
         ports:
         - containerPort: 8080
 ---
